@@ -1,0 +1,77 @@
+name: NightTape
+options:
+  bundleIdPrefix: com.nighttape
+  deploymentTarget:
+    iOS: "18.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    CODE_SIGN_STYLE: Manual
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_IDENTITY: ""
+    CODE_SIGNING_REQUIRED: "NO"
+    CODE_SIGNING_ALLOWED: "NO"
+    ENABLE_BITCODE: "NO"
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+
+targets:
+  NightTape:
+    type: application
+    platform: iOS
+    sources:
+      - App
+    dependencies:
+      - target: NightTapeWidget
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: NightTape
+        CFBundleShortVersionString: "1.0.0"
+        CFBundleVersion: "1"
+        UILaunchScreen: {}
+        UIUserInterfaceStyle: Dark
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        NSMicrophoneUsageDescription: >-
+          NightTape records ambient sound overnight to detect when you fall
+          asleep and to capture clips like snoring and sleep talking. All audio
+          is processed and stored on your device only.
+        UIBackgroundModes:
+          - audio
+        NSSupportsLiveActivities: true
+        ITSAppUsesNonExemptEncryption: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.nighttape.app
+        TARGETED_DEVICE_FAMILY: "1"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+
+  NightTapeWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - Widget
+      - path: App/Shared
+    info:
+      path: Widget/Info.plist
+      properties:
+        CFBundleDisplayName: NightTape Widget
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.nighttape.app.widget
+
+schemes:
+  NightTape:
+    build:
+      targets:
+        NightTape: all
+    run:
+      config: Debug
+    archive:
+      config: Release
